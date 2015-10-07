@@ -3,3 +3,5 @@
 bower_components
 node_modules
 output
+.DS_Store
+dist/

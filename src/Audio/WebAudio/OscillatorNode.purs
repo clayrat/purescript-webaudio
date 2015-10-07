@@ -1,8 +1,17 @@
 module Audio.WebAudio.OscillatorNode where
 
-import Control.Monad.Eff
-import Audio.WebAudio.Types
-import Audio.WebAudio.Utils
+import Prelude ( Show, Unit()
+               , ($), (<$>)
+               , show)
+
+import Control.Monad.Eff (Eff())
+
+import Audio.WebAudio.Types ( AudioNode
+                            , AudioParam()
+                            , OscillatorNode()
+                            , WebAudio())
+import Audio.WebAudio.Utils ( unsafeGetProp
+                            , unsafeSetProp)
 
 data OscillatorType = Sine | Square | Sawtooth | Triangle | Custom
 
@@ -20,31 +29,23 @@ readOscillatorType "sawtooth" = Sawtooth
 readOscillatorType "triangle" = Triangle
 readOscillatorType "custom"   = Custom
 
-frequency :: forall wau eff. OscillatorNode -> (Eff (wau :: WebAudio | eff) AudioParam)
+frequency :: forall wau eff. OscillatorNode
+          -> (Eff (wau :: WebAudio | eff) AudioParam)
 frequency = unsafeGetProp "frequency"
 
-oscillatorType :: forall wau eff. OscillatorNode -> (Eff (wau :: WebAudio | eff) OscillatorType)
+oscillatorType :: forall wau eff. OscillatorNode
+               -> (Eff (wau :: WebAudio | eff) OscillatorType)
 oscillatorType n = readOscillatorType <$> unsafeGetProp "type" n
 
-setOscillatorType :: forall wau eff. OscillatorType -> OscillatorNode -> (Eff (wau :: WebAudio | eff) Unit)
+setOscillatorType :: forall wau eff. OscillatorType
+                  -> OscillatorNode
+                  -> (Eff (wau :: WebAudio | eff) Unit)
 setOscillatorType t n = unsafeSetProp "type" n $ show t
 
-foreign import startOscillator
-  "function startOscillator(when) { \n\
-  \  return function(n) { \n\
-  \    return function() { \n\
-  \      return n[n.start ? 'start' : 'noteOn'](when); \n\
-  \    }; \n\
-  \  }; \n\
-  \}" :: forall wau eff. Number -> OscillatorNode -> (Eff (wau :: WebAudio | eff) Unit)
+foreign import startOscillator :: forall wau eff. Number
+                               -> OscillatorNode
+                               -> (Eff (wau :: WebAudio | eff) Unit)
 
-foreign import stopOscillator
-  "function stopOscillator(when) { \n\
-  \  return function(n) { \n\
-  \    return function() { \n\
-  \      return n[n.stop ? 'stop' : 'noteOff'](when); \n\
-  \    }; \n\
-  \  }; \n\
-  \}" :: forall wau eff. Number -> OscillatorNode -> (Eff (wau :: WebAudio | eff) Unit)
-
-instance audioNodeOscillatorNode :: AudioNode OscillatorNode
+foreign import stopOscillator :: forall wau eff. Number
+                              -> OscillatorNode
+                              -> (Eff (wau :: WebAudio | eff) Unit)
