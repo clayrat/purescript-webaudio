@@ -3,6 +3,7 @@ module Audio.WebAudio.AudioContext where
 import Prelude (Unit(..))
 
 import Control.Monad.Eff (Eff(..))
+import Data.ArrayBuffer.Types ( ArrayBuffer() )
 import Data.Maybe
 
 import Audio.WebAudio.Types ( AudioNode
@@ -36,7 +37,7 @@ foreign import currentTime :: forall wau eff. AudioContext
                            -> (Eff (wau :: WebAudio | eff) Number)
 
 foreign import decodeAudioData :: forall wau e f. AudioContext
-                               -> String
+                               -> ArrayBuffer
                                -> (Maybe AudioBuffer -> Eff (wau :: WebAudio | e) Unit)
                                -> (Eff (wau :: WebAudio | f) Unit)
 

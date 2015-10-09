@@ -27,6 +27,7 @@
     "purescript-dom": "*",
     "purescript-timers": "*",
     "purescript-foreign": "~0.7.0",
-    "purescript-nullable": "~0.2.1"
+    "purescript-nullable": "~0.2.1",
+    "purescript-affjax": "~0.8.0"
   }
 }

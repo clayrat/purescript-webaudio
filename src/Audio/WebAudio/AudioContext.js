@@ -39,9 +39,9 @@ exports.decodeAudioData = function(cx) {
       return function() {
         cx.decodeAudioData(audioData,
           function(data) {
-            cb(new PS.Data_Maybe.Just(data))(); },
+            cb(new PS["Data.Maybe"].Just(data))(); },
           function() {
-            cb(PS.Data_Maybe.Nothing.value)(); });
+            cb(PS["Data.Maybe"].Nothing.value)(); });
       };
     };
   };
