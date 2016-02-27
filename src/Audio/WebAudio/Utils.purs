@@ -3,11 +3,10 @@ module Audio.WebAudio.Utils
   , unsafeGetProp
   ) where
 
-import Prelude (Unit(..))
+import Prelude (Unit)
 
-import Control.Monad.Eff (Eff(..))
-import DOM (DOM())
-
+import Control.Monad.Eff (Eff)
+  
 foreign import unsafeSetProp :: forall obj val eff. String
                              -> obj
                              -> val
